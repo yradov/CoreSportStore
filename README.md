@@ -25,7 +25,7 @@ dotnet tool install --global dotnet-ef --version 5.0.9
 cd .\SportsStore\
 dotnet ef migrations add Initial
 -- recreate db and seed data
-dotnet ef database drop --force --context StoreDbContext
+dotnet ef database drop --force --context StoreDbContext --project SportsStore
 
 
 
