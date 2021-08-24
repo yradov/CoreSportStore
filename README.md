@@ -14,6 +14,11 @@ dotnet sln SportsSln add SportsSln/SportsStore.Tests
 dotnet add SportsSln/SportsStore.Tests reference SportsSln/SportsStore
 dotnet add SportsSln/SportsStore.Tests package Moq --version 4.16.1
 
+### Library Manager Cli
+dotnet tool uninstall --global Microsoft.Web.LibraryManager.Cli
+dotnet tool install --global Microsoft.Web.LibraryManager.Cli --version 2.1.113
+libman init -p cdnjs # in SportsStore
+
 ### Entity Framework Core
 dotnet add package Microsoft.EntityFrameworkCore.Design --version 5.0.9
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 5.0.9
