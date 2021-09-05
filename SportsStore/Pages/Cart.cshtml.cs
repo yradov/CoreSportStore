@@ -36,5 +36,11 @@ namespace SportsStore.Pages
             //HttpContext.Session.SetJson("cart", Cart); // before creating the SessionCart class
             return RedirectToPage(new { returnUrl = returnUrl });
         }
+
+        public IActionResult OnPostRemove(long productId, string returnUrl)
+        {
+            Cart.RemoveLine(Cart.Lines.First(cl => cl.Product.ProductID == productId).Product);
+            return RedirectToPage(new { returnUrl = returnUrl });
+        }
     }
 }
