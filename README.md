@@ -18,6 +18,7 @@ dotnet add SportsSln/SportsStore.Tests package Moq --version 4.16.1
 dotnet tool uninstall --global Microsoft.Web.LibraryManager.Cli
 dotnet tool install --global Microsoft.Web.LibraryManager.Cli --version 2.1.113
 libman init -p cdnjs # in SportsStore
+libman install font-awesome@5.15.4 -d wwwroot/lib/font-awesome
 
 ### Entity Framework Core
 dotnet add package Microsoft.EntityFrameworkCore.Design --version 5.0.9
