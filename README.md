@@ -32,6 +32,10 @@ dotnet tool install --global dotnet-ef --version 5.0.9
 cd .\SportsStore\
 dotnet ef migrations add Initial
 
+cd .\SportsStore\
+dotnet ef migrations add Orders
+
+
 RECREATE DB AND SEED DATA
 -----------------------------
 -- remove DB
@@ -40,6 +44,4 @@ dotnet ef database drop --context StoreDbContext ###from the SportsStore folder
 -- recreate DB
 dotnet ef database update --context StoreDbContext
 
-cd .\SportsStore\
-dotnet ef migrations add Orders
 
