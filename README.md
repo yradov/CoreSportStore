@@ -3,7 +3,7 @@ Study ASP.NET 5.0
 
 ## Commands
 ### Project
-dotnet new globaljson --sdk-version 5.0.302 --output SportsSln/SportsStore
+dotnet new globaljson --sdk-version 5.0.400 --output SportsSln/SportsStore
 dotnet new web --no-https --output SportsSln/SportsStore --framework net5.0
 dotnet new sln -o SportsSln
 dotnet sln SportsSln add SportsSln/SportsStore
@@ -31,9 +31,15 @@ dotnet tool install --global dotnet-ef --version 5.0.9
 #### EF Commands
 cd .\SportsStore\
 dotnet ef migrations add Initial
--- recreate db and seed data
-dotnet ef database drop --force --context StoreDbContext --project SportsStore
 
+RECREATE DB AND SEED DATA
+-----------------------------
+-- remove DB
+dotnet ef database drop --force --context StoreDbContext --project SportsStore ###from the SportsSln folder
+dotnet ef database drop --context StoreDbContext ###from the SportsStore folder
+-- recreate DB
+dotnet ef database update --context StoreDbContext
 
-
+cd .\SportsStore\
+dotnet ef migrations add Orders
 
