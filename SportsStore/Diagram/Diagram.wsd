@@ -1,0 +1,121 @@
+@startuml SportsStore
+
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+skinparam titleBorderColor red
+skinparam titleBackgroundColor Aqua-CadetBlue
+
+title SportsStore
+
+class Product {
+    + long ProductID
+    + string Name
+    + string Description
+    + decimal Price
+    + string Category
+}
+
+class Order {
+    + int OrderId
+    + ICollection<CartLine> Lines
+    + string Name
+    + string Line1
+    + string Line2
+    + string Line3
+    + string City
+    + string State
+    + string Zip
+    + string Country
+    + bool GiftWrap
+}
+
+class CartLine
+{
+    + int CartLineId
+    + Product Product
+    + int Quantity
+}
+
+class Cart
+{
+    + List<CartLine> Lines
+    + virtual void AddItem(Product product, int quantity)
+    + virtual void RemoveLine(Product product)
+    + decimal ComputeTotalValue()
+    + virtual void Crear()
+}
+
+class SessionCart
+{
+    + ISession Session
+    + static Cart GetCart(IServiceProvider services)
+    + override void AddItem(Product product, int quantity)
+    + override void RemoveLine(Product product)
+    + override void Crear()
+}
+
+Cart <|-- SessionCart
+CartLine *-- Cart
+
+class StoreDbContext
+{
+    + StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options){}
+    + DbSet<Product> Products
+    + DbSet<Order> Orders
+}
+
+Microsoft.EntityFrameworkCore.DbContext <|-- StoreDbContext
+
+interface IOrderRepository
+{
+    IQueryable<Order> Orders
+    void SaveOrder(Order order)
+}
+
+class EFOrderRepository
+{
+    - StoreDbContext context;
+    + EFOrderRepository(StoreDbContext ctx)
+
+    IQueryable<Order> IOrderRepository.Orders
+
+    void IOrderRepository.SaveOrder(Order order)
+}
+IOrderRepository <|.. EFOrderRepository
+StoreDbContext o-- EFOrderRepository
+
+interface IStoreRepository
+{
+    IQueryable<Product> Products
+}
+
+class EFStoreRepository
+{
+    - StoreDbContext context;
+
+    + EFStoreRepository(StoreDbContext ctx)
+
+    public IQueryable<Product> Products => context.Products;
+}
+IStoreRepository <|.. EFStoreRepository
+StoreDbContext o-- EFStoreRepository
+
+class PagingInfo
+{
+    + int TotalItems
+    + int ItemsPerPage
+    + int CurrentPage
+    + int TotalPages()
+}
+
+class ProductsListViewModel
+{
+    + IEnumerable<Product> Products
+    + PagingInfo PagingInfo 
+    + string CurrentCategory 
+}
+
+PagingInfo *-- ProductsListViewModel
+
+
+@end SportsStore
