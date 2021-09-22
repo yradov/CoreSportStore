@@ -117,6 +117,76 @@ class ProductsListViewModel
     + string CurrentCategory 
 }
 
-PagingInfo "1" --* "1" ProductsListViewModel
+ProductsListViewModel "1" *-- "1" PagingInfo
+
+
+class HomeController
+{
+    - IStoreRepository repository;
+    + int PageSize = 4;
+
+    + HomeController(IStoreRepository repo)
+
+    + ViewResult Index(string category, int productPage = 1) 
+}
+
+Microsoft.AspNetCore.Mvc.Controller <|-- HomeController
+HomeController ..> ProductsListViewModel
+HomeController o-- IStoreRepository
+
+note right of HomeController::repository
+  in Startup::ConfigureServices()
+  services.AddScoped<IStoreRepository, EFStoreRepository>();
+end note
+
+note right of HomeController::Index
+  return View(new ProductsListViewModel
+            {
+                Products = repository.Products
+                    .Where(p => category == null || p.Category == category)
+                    .OrderBy(p => p.ProductID)
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = productPage,
+                    ItemsPerPage = PageSize,
+                    TotalItems = category == null ? 
+                    repository.Products.Count() :
+                    repository.Products.Where(e => e.Category == category).Count()
+                },
+                CurrentCategory = category
+            });
+end note
+
+
+class OrderController
+{
+    - IOrderRepository repository;
+    - Cart cart;
+    + OrderController(IOrderRepository repoService, Cart cartService)
+
+    + ViewResult Checkout() => View(new Order())
+
+    /'HttpPost'/
+    + IActionResult Checkout(Order order)
+}
+
+Microsoft.AspNetCore.Mvc.Controller <|-- OrderController
+OrderController  o-- IOrderRepository
+OrderController o-- Cart
+
+note left of OrderController
+    <b>in [HttpPost] Checkout(Order order):</b>
+    <code>
+    if (ModelState.IsValid)
+    {
+        order.Lines = cart.Lines.ToArray();
+        repository.SaveOrder(order);
+        cart.Crear();
+        return RedirectToPage("/Completed", new { orderId = order.OrderId});
+    }
+    </code>
+end note
 
 @end SportsStore
