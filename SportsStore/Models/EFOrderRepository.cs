@@ -14,11 +14,11 @@ namespace SportsStore.Models
             context = ctx;
         }
 
-        IQueryable<Order> IOrderRepository.Orders => context.Orders
+        public IQueryable<Order> Orders => context.Orders
             .Include(o => o.Lines)
             .ThenInclude(l => l.Product);
 
-        void IOrderRepository.SaveOrder(Order order)
+        public void SaveOrder(Order order)
         {
             context.AttachRange(order.Lines.Select(l => l.Product));
             if (order.OrderId == 0)

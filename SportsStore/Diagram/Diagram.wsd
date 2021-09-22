@@ -29,6 +29,9 @@ class Order {
     + bool GiftWrap
 }
 
+CartLine "Many" --* "One" Order
+'Cart -- Order : Lines
+
 class CartLine
 {
     + int CartLineId
@@ -36,26 +39,28 @@ class CartLine
     + int Quantity
 }
 
+Product "1" --* "1" CartLine 
+
 class Cart
 {
-    + List<CartLine> Lines
-    + virtual void AddItem(Product product, int quantity)
-    + virtual void RemoveLine(Product product)
-    + decimal ComputeTotalValue()
-    + virtual void Crear()
+    + List<CartLine> <b>Lines</b>
+    + virtual void <b>AddItem</b>(Product product, int quantity)
+    + virtual void <b>RemoveLine</b>(Product product)
+    + decimal <b>ComputeTotalValue</b>()
+    + virtual void <b>Crear</b>()
 }
 
 class SessionCart
 {
     + ISession Session
-    + static Cart GetCart(IServiceProvider services)
-    + override void AddItem(Product product, int quantity)
-    + override void RemoveLine(Product product)
-    + override void Crear()
+    + static Cart <b>GetCart</b>(IServiceProvider services)
+    + override void <b>AddItem</b>(Product product, int quantity)
+    + override void <b>RemoveLine</b>(Product product)
+    + override void <b>Crear</b>()
 }
 
 Cart <|-- SessionCart
-CartLine *-- Cart
+CartLine "Many" --* "One" Cart
 
 class StoreDbContext
 {
@@ -68,18 +73,17 @@ Microsoft.EntityFrameworkCore.DbContext <|-- StoreDbContext
 
 interface IOrderRepository
 {
-    IQueryable<Order> Orders
+    IQueryable<Order> Orders 
     void SaveOrder(Order order)
 }
 
 class EFOrderRepository
 {
-    - StoreDbContext context;
-    + EFOrderRepository(StoreDbContext ctx)
-
-    IQueryable<Order> IOrderRepository.Orders
-
-    void IOrderRepository.SaveOrder(Order order)
+    - StoreDbContext <b>context</b>
+    + IQueryable<Order> <b>Orders</b>
+    + <b>EFOrderRepository</b>(StoreDbContext ctx)
+    
+    + void <b>SaveOrder</b>(Order order)
 }
 IOrderRepository <|.. EFOrderRepository
 StoreDbContext o-- EFOrderRepository
@@ -91,11 +95,9 @@ interface IStoreRepository
 
 class EFStoreRepository
 {
-    - StoreDbContext context;
-
-    + EFStoreRepository(StoreDbContext ctx)
-
-    public IQueryable<Product> Products => context.Products;
+    - StoreDbContext <b>context</b>;
+    + <b>EFStoreRepository</b>(StoreDbContext ctx)
+    + IQueryable<Product> <b>Products</b>
 }
 IStoreRepository <|.. EFStoreRepository
 StoreDbContext o-- EFStoreRepository
@@ -115,7 +117,6 @@ class ProductsListViewModel
     + string CurrentCategory 
 }
 
-PagingInfo *-- ProductsListViewModel
-
+PagingInfo "1" --* "1" ProductsListViewModel
 
 @end SportsStore
