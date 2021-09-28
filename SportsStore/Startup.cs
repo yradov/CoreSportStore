@@ -27,9 +27,11 @@ namespace SportsStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             services.AddDbContext<StoreDbContext>(opts => {
                 opts.UseSqlServer(Configuration["ConnectionStrings:SportsStoreConnection"]);
             });
+
             services.AddScoped<IStoreRepository, EFStoreRepository>();
             services.AddScoped<IOrderRepository, EFOrderRepository>();
             services.AddRazorPages();
