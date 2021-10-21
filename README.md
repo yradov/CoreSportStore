@@ -28,12 +28,13 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 5.0.9
 dotnet tool uninstall --global dotnet-ef
 dotnet tool install --global dotnet-ef --version 5.0.9
 
-#### EF Commands
+#### EF Commands/Migrations
 cd .\SportsStore\
 dotnet ef migrations add Initial
 
 cd .\SportsStore\
 dotnet ef migrations add Orders
+dotnet ef migrations add ShippedOrders
 
 
 RECREATE DB AND SEED DATA
@@ -43,5 +44,4 @@ dotnet ef database drop --force --context StoreDbContext --project SportsStore #
 dotnet ef database drop --context StoreDbContext ###from the SportsStore folder
 -- recreate DB
 dotnet ef database update --context StoreDbContext
-
 
