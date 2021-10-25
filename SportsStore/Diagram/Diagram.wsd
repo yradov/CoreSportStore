@@ -91,6 +91,10 @@ StoreDbContext o-- EFOrderRepository
 interface IStoreRepository
 {
     IQueryable<Product> Products
+    void SaveProduct(Product p);
+    void CreateProduct(Product p);
+    void DeleteProduct(Product p);
+
 }
 
 class EFStoreRepository
@@ -98,6 +102,10 @@ class EFStoreRepository
     - StoreDbContext <b>context</b>;
     + <b>EFStoreRepository</b>(StoreDbContext ctx)
     + IQueryable<Product> <b>Products</b>
+    + void SaveProduct(Product p);
+    + void CreateProduct(Product p);
+    + void DeleteProduct(Product p);
+
 }
 IStoreRepository <|.. EFStoreRepository
 StoreDbContext o-- EFStoreRepository
