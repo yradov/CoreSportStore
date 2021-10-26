@@ -45,3 +45,10 @@ dotnet ef database drop --context StoreDbContext ###from the SportsStore folder
 -- recreate DB
 dotnet ef database update --context StoreDbContext
 
+#### Identity
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 5.0.11
+dotnet ef migrations add Initial --context AppIdentityDbContext
+dotnet ef database update --context AppIdentityDbContext
+
+
+
