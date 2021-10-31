@@ -51,4 +51,11 @@ dotnet ef migrations add Initial --context AppIdentityDbContext
 dotnet ef database update --context AppIdentityDbContext
 
 
+#### PRODUCTION & DOCKER
+docker --version
 
+cd .\SportsStore\
+dotnet publish -c Release
+
+docker-compose build
+docker-compose up
