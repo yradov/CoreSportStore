@@ -1,7 +1,19 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="bg-info text-white p-2">
-    <span class="navbar-brand ml-2">SPORTS STORE Administration</span>
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col">
+                <span class="navbar-brand ml-2">SPORTS STORE Administration</span>
+            </div>@*.col*@
+
+            <div class="col-2 text-right">
+                <a href="/account/logout" class="btn btn primary">Log Out</a>
+            </div>@*.col-2*@
+
+        </div>@*.row*@
+    </div>@*.container-fluid*@
 </div>
 
 <div class="container-fluid">
@@ -28,3 +40,4 @@
 
     </div>@*.row*@
 </div>@*.container-fluid*@
+
